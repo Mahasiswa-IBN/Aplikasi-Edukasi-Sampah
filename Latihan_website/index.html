@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoEdu - UPT SMP Negeri 4 Gadingrejo</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Aplikasi Edukasi Pengelolaan Sampah untuk siswa UPT SMP Negeri 4 Gadingrejo. Pelajari materi, kenali jenis sampah, mainkan game pilah sampah, dan uji kemampuanmu lewat kuis interaktif!">
+    <meta name="keywords" content="edukasi sampah, kelola sampah, smp, smpn 4 gadingrejo, kuis sampah, game pilah sampah, 3r">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for beautiful icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- App Container -->
+    <div class="app-container">
+        
+        <!-- Navigation Header -->
+        <header class="app-header">
+            <div class="header-logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>EcoEdu</h1>
+                    <span>UPT SMPN 4 Gadingrejo</span>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            
+            <nav class="app-nav" id="appNav">
+                <ul>
+                    <li><a href="#beranda" class="nav-link active" data-tab="beranda"><i class="fa-solid fa-house"></i> Beranda</a></li>
+                    <li><a href="#materi" class="nav-link" data-tab="materi"><i class="fa-solid fa-book-open"></i> Materi</a></li>
+                    <li><a href="#jenis-sampah" class="nav-link" data-tab="jenis-sampah"><i class="fa-solid fa-trash-can"></i> Jenis Sampah</a></li>
+                    <li><a href="#game-pilah" class="nav-link" data-tab="game-pilah"><i class="fa-solid fa-gamepad"></i> Game Pilah</a></li>
+                    <li><a href="#kuis" class="nav-link" data-tab="kuis"><i class="fa-solid fa-circle-question"></i> Kuis Interaktif</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Ganti Tema">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="app-content">
+            
+            <!-- SECTION 1: BERANDA -->
+            <section id="beranda" class="tab-content active-tab">
+                <div class="hero-container">
+                    <div class="hero-text">
+                        <span class="hero-badge"><i class="fa-solid fa-graduation-cap"></i> Portal Edukasi Lingkungan</span>
+                        <h2>Selamatkan Bumi Kita Mulai Dari Sekolah!</h2>
+                        <p>Selamat datang di <strong>EcoEdu UPT SMP Negeri 4 Gadingrejo</strong>. Mari bersama-sama belajar memahami, memilah, dan mengelola sampah dengan benar untuk menciptakan lingkungan sekolah yang bersih, sehat, dan hijau.</p>
+                        <div class="hero-cta">
+                            <button class="btn btn-primary" onclick="switchTab('materi')">
+                                <i class="fa-solid fa-play"></i> Mulai Belajar
+                            </button>
+                            <button class="btn btn-secondary" onclick="switchTab('game-pilah')">
+                                <i class="fa-solid fa-gamepad"></i> Game Pilah Sampah
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <div class="blob-bg"></div>
+                        <div class="hero-illustrations">
+                            <div class="ill-card ill-card-1">
+                                <i class="fa-solid fa-recycle text-green"></i>
+                                <span>3R: Reduce, Reuse, Recycle</span>
+                            </div>
+                            <div class="ill-card ill-card-2">
+                                <i class="fa-solid fa-trash-arrow-up text-blue"></i>
+                                <span>Pilah Sampahmu</span>
+                            </div>
+                            <div class="main-circle">
+                                <i class="fa-solid fa-earth-asia"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Cards / Stats -->
+                <div class="stats-section">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-soft-green"><i class="fa-solid fa-seedling"></i></div>
+                        <div class="stat-info">
+                            <h3>Langkah Hijau</h3>
+                            <p>Kurangi penggunaan plastik sekali pakai di sekolah.</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-soft-blue"><i class="fa-solid fa-arrows-spin"></i></div>
+                        <div class="stat-info">
+                            <h3>Pilahkan Sampah</h3>
+                            <p>Pisahkan organik, anorganik, kertas, dan B3.</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-soft-yellow"><i class="fa-solid fa-lightbulb"></i></div>
+                        <div class="stat-info">
+                            <h3>Kreasi Sampah</h3>
+                            <p>Ubah sampah menjadi barang berguna dan kompos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Callout Banner -->
+                <div class="school-banner">
+                    <div class="banner-content">
+                        <h3>Aksi Nyata Siswa SMPN 4 Gadingrejo</h3>
+                        <p>Mari wujudkan sekolah berbudaya lingkungan (Adiwiyata). Mulai hari ini dengan membuang sampah pada tempatnya berdasarkan jenisnya!</p>
+                    </div>
+                    <i class="fa-solid fa-tree banner-icon"></i>
+                </div>
+            </section>
+
+            <!-- SECTION 2: MATERI -->
+            <section id="materi" class="tab-content">
+                <div class="section-header">
+                    <h2>Materi Pengelolaan Sampah</h2>
+                    <p>Pelajari konsep penting mengenai sampah dan cara pengelolaannya untuk siswa SMP.</p>
+                </div>
+                
+                <div class="materi-grid" id="materiGrid">
+                    <!-- Dynamic Material Cards will be loaded here from app.js -->
+                </div>
+
+                <!-- Material Detail Modal / Overlay -->
+                <div class="modal" id="materiModal">
+                    <div class="modal-content">
+                        <button class="modal-close" id="modalClose">&times;</button>
+                        <div class="modal-body" id="modalBody">
+                            <!-- Content loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: JENIS SAMPAH -->
+            <section id="jenis-sampah" class="tab-content">
+                <div class="section-header">
+                    <h2>Mengenal Jenis Sampah</h2>
+                    <p>Sampah terbagi menjadi beberapa jenis agar lebih mudah diolah kembali. Yuk pelajari jenis-jenisnya di bawah ini!</p>
+                </div>
+
+                <div class="bins-info-grid">
+                    <div class="bin-info-card border-green">
+                        <div class="bin-header bg-green">
+                            <i class="fa-solid fa-trash"></i>
+                            <h3>Organik (Hijau)</h3>
+                        </div>
+                        <div class="bin-body">
+                            <h4>Sampah Basah / Mudah Membusuk</h4>
+                            <p>Sampah yang berasal dari makhluk hidup dan dapat terurai secara alami oleh mikroorganisme.</p>
+                            <ul>
+                                <li><i class="fa-solid fa-apple-whole"></i> Sisa makanan & sayuran</li>
+                                <li><i class="fa-solid fa-leaf"></i> Dedaunan kering & ranting</li>
+                                <li><i class="fa-solid fa-egg"></i> Kulit telur & tulang</li>
+                            </ul>
+                            <div class="processing-tip">
+                                <strong><i class="fa-solid fa-gears"></i> Pengolahan:</strong> Bisa dijadikan pupuk kompos berkualitas untuk tanaman sekolah.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bin-info-card border-yellow">
+                        <div class="bin-header bg-yellow">
+                            <i class="fa-solid fa-trash"></i>
+                            <h3>Anorganik (Kuning)</h3>
+                        </div>
+                        <div class="bin-body">
+                            <h4>Sampah Kering / Sulit Terurai</h4>
+                            <p>Sampah yang dihasilkan dari proses teknologi dan membutuhkan waktu puluhan hingga ratusan tahun untuk hancur secara alami.</p>
+                            <ul>
+                                <li><i class="fa-solid fa-bottle-water"></i> Botol plastik & gelas plastik</li>
+                                <li><i class="fa-solid fa-cubes"></i> Styrofoam & kemasan saset</li>
+                                <li><i class="fa-solid fa-whiskey-glass"></i> Pecahan kaca & kaleng logam</li>
+                            </ul>
+                            <div class="processing-tip">
+                                <strong><i class="fa-solid fa-gears"></i> Pengolahan:</strong> Didaur ulang menjadi produk baru atau kerajinan tangan (kreativitas siswa).
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bin-info-card border-blue">
+                        <div class="bin-header bg-blue">
+                            <i class="fa-solid fa-trash"></i>
+                            <h3>Kertas (Biru)</h3>
+                        </div>
+                        <div class="bin-body">
+                            <h4>Khusus Sampah Berbahan Kertas</h4>
+                            <p>Meskipun organik, memisahkan kertas mempermudah daur ulang kertas menjadi kertas koran atau kardus baru tanpa tercemar minyak makanan.</p>
+                            <ul>
+                                <li><i class="fa-solid fa-book"></i> Buku tulis bekas & LKS</li>
+                                <li><i class="fa-solid fa-newspaper"></i> Koran & majalah bekas</li>
+                                <li><i class="fa-solid fa-box"></i> Kardus & karton makanan</li>
+                            </ul>
+                            <div class="processing-tip">
+                                <strong><i class="fa-solid fa-gears"></i> Pengolahan:</strong> Disalurkan ke Bank Sampah sekolah atau pabrik bubur kertas (pulp).
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bin-info-card border-red">
+                        <div class="bin-header bg-red">
+                            <i class="fa-solid fa-trash"></i>
+                            <h3>B3 - Berbahaya (Merah)</h3>
+                        </div>
+                        <div class="bin-body">
+                            <h4>Bahan Berbahaya & Beracun</h4>
+                            <p>Sampah yang mengandung zat kimia berbahaya yang dapat mencemari lingkungan dan membahayakan kesehatan manusia.</p>
+                            <ul>
+                                <li><i class="fa-solid fa-battery-three-quarters"></i> Baterai bekas & komponen HP</li>
+                                <li><i class="fa-solid fa-lightbulb"></i> Lampu TL/Neon yang rusak</li>
+                                <li><i class="fa-solid fa-spray-can"></i> Kaleng semprotan parfum/pembasmi serangga</li>
+                            </ul>
+                            <div class="processing-tip text-red-strong">
+                                <strong><i class="fa-solid fa-triangle-exclamation"></i> Perhatian:</strong> Harus dikumpulkan terpisah untuk diolah oleh pihak berwenang secara aman. Jangan dicampur sampah lain!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: GAME PILAH SAMPAH -->
+            <section id="game-pilah" class="tab-content">
+                <div class="section-header">
+                    <h2>Game Pilah Sampah</h2>
+                    <p>Asah kemampuanmu memilah sampah dengan menyortir item sampah ke dalam tong sampah yang benar!</p>
+                </div>
+
+                <div class="game-wrapper">
+                    <div class="game-instruction-bar">
+                        <h3><i class="fa-solid fa-gamepad"></i> Game Pilah Sampah: UPT SMPN 4 Gadingrejo</h3>
+                        <p>💡 <strong>Cara Bermain:</strong> Pilah 10 item sampah ke tong yang benar — tarik sampah ke tong, atau ketuk sampah lalu ketuk tong sampahnya!</p>
+                    </div>
+                    
+                    <div class="game-stats-row">
+                        <div class="game-stat-box">
+                            <span class="stat-label">Skor Saya</span>
+                            <span class="stat-value" id="gameScore">0</span>
+                        </div>
+                        <div class="game-stat-box">
+                            <span class="stat-label">Terpilah Benar</span>
+                            <span class="stat-value" id="gameCorrect">0 / 0</span>
+                        </div>
+                        <button class="btn btn-outline" id="btnResetGame"><i class="fa-solid fa-rotate-right"></i> Reset Game</button>
+                    </div>
+
+                    <!-- Trash Items Spawn Area -->
+                    <div class="trash-spawn-container">
+                        <h4>Item Sampah untuk Dipilah:</h4>
+                        <div class="trash-items-pool" id="trashItemsPool">
+                            <!-- Trash items generated via JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Trash Bins Target Area -->
+                    <div class="bins-target-container">
+                        <div class="bin-dropzone" data-bin="organik" id="binOrganik">
+                            <div class="bin-graphic green-bin">
+                                <div class="bin-lid"></div>
+                                <div class="bin-body-shape">
+                                    <i class="fa-solid fa-apple-whole"></i>
+                                    <span>ORGANIK</span>
+                                </div>
+                            </div>
+                            <span class="bin-label-bottom bg-green">Hijau</span>
+                        </div>
+
+                        <div class="bin-dropzone" data-bin="anorganik" id="binAnorganik">
+                            <div class="bin-graphic yellow-bin">
+                                <div class="bin-lid"></div>
+                                <div class="bin-body-shape">
+                                    <i class="fa-solid fa-bottle-water"></i>
+                                    <span>ANORGANIK</span>
+                                </div>
+                            </div>
+                            <span class="bin-label-bottom bg-yellow">Kuning</span>
+                        </div>
+
+                        <div class="bin-dropzone" data-bin="kertas" id="binKertas">
+                            <div class="bin-graphic blue-bin">
+                                <div class="bin-lid"></div>
+                                <div class="bin-body-shape">
+                                    <i class="fa-solid fa-file-lines"></i>
+                                    <span>KERTAS</span>
+                                </div>
+                            </div>
+                            <span class="bin-label-bottom bg-blue">Biru</span>
+                        </div>
+
+                        <div class="bin-dropzone" data-bin="b3" id="binB3">
+                            <div class="bin-graphic red-bin">
+                                <div class="bin-lid"></div>
+                                <div class="bin-body-shape">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                    <span>B3</span>
+                                </div>
+                            </div>
+                            <span class="bin-label-bottom bg-red">Merah</span>
+                        </div>
+                    </div>
+
+                    <div class="game-feedback" id="gameFeedback">
+                        <!-- Real-time game message feedback -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: KUIS -->
+            <section id="kuis" class="tab-content">
+                <div class="section-header">
+                    <h2>Kuis Pengelolaan Sampah</h2>
+                    <p>Uji wawasanmu tentang pemilahan dan pengelolaan sampah. Dapatkan skor terbaik dan tunjukkan kepedulianmu pada lingkungan!</p>
+                </div>
+
+                <div class="quiz-container-box">
+                    
+                    <!-- Quiz Intro Screen -->
+                    <div class="quiz-screen active-screen" id="quizScreenIntro">
+                        <div class="quiz-intro-card">
+                            <div class="quiz-banner-icon">
+                                <i class="fa-solid fa-trophy"></i>
+                            </div>
+                            <h3>Siap Menjadi Pahlawan Lingkungan?</h3>
+                            <p>Kuis ini terdiri dari 10 pertanyaan pilihan ganda seputar jenis sampah, prinsip 3R, dan dampak sampah bagi lingkungan sekitar sekolah.</p>
+                            <div class="quiz-rules">
+                                <ul>
+                                    <li><i class="fa-solid fa-check text-green"></i> 10 pertanyaan menantang</li>
+                                    <li><i class="fa-solid fa-check text-green"></i> Urutan soal &amp; pilihan jawaban diacak berbeda tiap siswa</li>
+                                    <li><i class="fa-solid fa-check text-green"></i> Penjelasan singkat setelah menjawab</li>
+                                    <li><i class="fa-solid fa-check text-green"></i> Dapatkan sertifikat digital (badge) di akhir kuis</li>
+                                </ul>
+                            </div>
+                            <div class="quiz-student-name">
+                                <label for="quizStudentName"><i class="fa-solid fa-user"></i> Nama Siswa</label>
+                                <input type="text" id="quizStudentName" placeholder="Masukkan nama lengkap kamu" autocomplete="name" maxlength="80">
+                                <small>Urutan soal disesuaikan berdasarkan nama agar setiap siswa mendapat susunan berbeda.</small>
+                            </div>
+                            <button class="btn btn-primary btn-large" id="btnStartQuiz">
+                                <i class="fa-solid fa-play"></i> Mulai Kuis Sekarang
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Question Screen -->
+                    <div class="quiz-screen" id="quizScreenPlay">
+                        <div class="quiz-progress-bar-wrapper">
+                            <div class="progress-info">
+                                <span id="quizQuestionNumber">Pertanyaan 1 dari 10</span>
+                                <span id="quizCurrentScore">Skor: 0</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" id="quizProgressBarFill" style="width: 10%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="question-container">
+                            <h3 id="quizQuestionText">Di bawah ini yang merupakan contoh sampah organik adalah...</h3>
+                            
+                            <div class="options-grid" id="quizOptionsGrid">
+                                <!-- Quiz Options loaded via Javascript -->
+                            </div>
+                        </div>
+
+                        <!-- Quiz Feedback (shown after choosing answer) -->
+                        <div class="quiz-answer-feedback hidden" id="quizAnswerFeedback">
+                            <div class="feedback-icon-container">
+                                <i class="" id="feedbackIcon"></i>
+                            </div>
+                            <div class="feedback-details">
+                                <h4 id="feedbackTitle">Jawaban Benar!</h4>
+                                <p id="feedbackText">Penjelasan tentang kenapa jawaban tersebut benar/salah akan dituliskan di sini.</p>
+                            </div>
+                            <button class="btn btn-primary" id="btnNextQuestion">
+                                Pertanyaan Berikutnya <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Results Screen -->
+                    <div class="quiz-screen" id="quizScreenResult">
+                        <div class="quiz-result-card">
+                            <div class="result-badge-container" id="resultBadgeContainer">
+                                <!-- Dynamic badge icon based on score -->
+                            </div>
+                            <h3 id="resultTitle">Luar Biasa! Kamu Pahlawan Lingkungan!</h3>
+                            <p class="result-score-text">Kamu menjawab <strong id="resultCorrectAnswers">9</strong> dari <strong>10</strong> pertanyaan dengan benar.</p>
+                            
+                            <div class="result-score-circle">
+                                <span id="resultScorePercent">90%</span>
+                                <small>Skor Akhir</small>
+                            </div>
+
+                            <p class="result-message" id="resultMessage">Kamu memiliki pemahaman yang sangat baik tentang pemilahan sampah. Ayo tularkan kebiasaan baik ini ke teman-temanmu di UPT SMP Negeri 4 Gadingrejo!</p>
+
+                            <div class="result-actions">
+                                <button class="btn btn-primary" id="btnRestartQuiz">
+                                    <i class="fa-solid fa-rotate-right"></i> Ulangi Kuis
+                                </button>
+                                <button class="btn btn-secondary" onclick="switchTab('jenis-sampah')">
+                                    <i class="fa-solid fa-gamepad"></i> Main Game Pilah
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+
+        <!-- App Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <p>&copy; 2026 EcoEdu - UPT SMP Negeri 4 Gadingrejo. All rights reserved.</p>
+                <p class="footer-subtext">Dibuat untuk edukasi pelestarian lingkungan sekolah menengah pertama.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Canvas Confetti Library for quiz celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Javascript Application Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
