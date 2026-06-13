@@ -44,6 +44,7 @@
                     <li><a href="#jenis-sampah" class="nav-link" data-tab="jenis-sampah"><i class="fa-solid fa-trash-can"></i> Jenis Sampah</a></li>
                     <li><a href="#game-pilah" class="nav-link" data-tab="game-pilah"><i class="fa-solid fa-gamepad"></i> Game Pilah</a></li>
                     <li><a href="#kuis" class="nav-link" data-tab="kuis"><i class="fa-solid fa-circle-question"></i> Kuis Interaktif</a></li>
+                    <li><a href="#petualangan" class="nav-link" data-tab="petualangan"><i class="fa-solid fa-compass"></i> Petualangan 3R</a></li>
                 </ul>
             </nav>
 
@@ -137,15 +138,7 @@
                     <!-- Dynamic Material Cards will be loaded here from app.js -->
                 </div>
 
-                <!-- Material Detail Modal / Overlay -->
-                <div class="modal" id="materiModal">
-                    <div class="modal-content">
-                        <button class="modal-close" id="modalClose">&times;</button>
-                        <div class="modal-body" id="modalBody">
-                            <!-- Content loaded dynamically -->
-                        </div>
-                    </div>
-                </div>
+
             </section>
 
             <!-- SECTION 3: JENIS SAMPAH -->
@@ -162,6 +155,7 @@
                             <h3>Organik (Hijau)</h3>
                         </div>
                         <div class="bin-body">
+                            <img src="sampah_organik.png" alt="Contoh Sampah Organik" class="trash-type-img">
                             <h4>Sampah Basah / Mudah Membusuk</h4>
                             <p>Sampah yang berasal dari makhluk hidup dan dapat terurai secara alami oleh mikroorganisme.</p>
                             <ul>
@@ -181,6 +175,7 @@
                             <h3>Anorganik (Kuning)</h3>
                         </div>
                         <div class="bin-body">
+                            <img src="sampah_anorganik.png" alt="Contoh Sampah Anorganik" class="trash-type-img">
                             <h4>Sampah Kering / Sulit Terurai</h4>
                             <p>Sampah yang dihasilkan dari proses teknologi dan membutuhkan waktu puluhan hingga ratusan tahun untuk hancur secara alami.</p>
                             <ul>
@@ -200,6 +195,7 @@
                             <h3>Kertas (Biru)</h3>
                         </div>
                         <div class="bin-body">
+                            <img src="sampah_kertas.png" alt="Contoh Sampah Kertas" class="trash-type-img">
                             <h4>Khusus Sampah Berbahan Kertas</h4>
                             <p>Meskipun organik, memisahkan kertas mempermudah daur ulang kertas menjadi kertas koran atau kardus baru tanpa tercemar minyak makanan.</p>
                             <ul>
@@ -219,6 +215,7 @@
                             <h3>B3 - Berbahaya (Merah)</h3>
                         </div>
                         <div class="bin-body">
+                            <img src="sampah_b3.png" alt="Contoh Sampah B3" class="trash-type-img">
                             <h4>Bahan Berbahaya & Beracun</h4>
                             <p>Sampah yang mengandung zat kimia berbahaya yang dapat mencemari lingkungan dan membahayakan kesehatan manusia.</p>
                             <ul>
@@ -421,6 +418,52 @@
                 </div>
             </section>
 
+            <!-- SECTION 5: PETUALANGAN 3R -->
+            <section id="petualangan" class="tab-content">
+                <div class="section-header">
+                    <h2>Petualangan 3R Siswa</h2>
+                    <p>Misi petualangan interaktif mengambil keputusan ramah lingkungan di sekolah UPT SMPN 4 Gadingrejo!</p>
+                </div>
+
+                <div class="story-wrapper">
+                    <div class="story-stats-row">
+                        <div class="story-stat-box">
+                            <span class="story-stat-label">Poin Kesadaran Lingkungan</span>
+                            <span class="story-stat-value" id="storyScore">0</span>
+                        </div>
+                        <button class="btn btn-outline btn-sm" id="btnRestartStory"><i class="fa-solid fa-rotate-right"></i> Reset Petualangan</button>
+                    </div>
+
+                    <div class="story-container" id="storyContainer">
+                        <!-- Area Visual / Ilustrasi Adegan -->
+                        <div class="story-illustration-box">
+                            <div class="story-illustration-card" id="storyIllustrationCard">
+                                <i class="fa-solid fa-compass" id="storyIcon"></i>
+                            </div>
+                        </div>
+
+                        <!-- Teks Cerita & Tombol Kontrol Suara -->
+                        <div class="story-content-box">
+                            <div class="story-speech-control-bar">
+                                <button class="story-audio-btn" id="btnToggleSpeech" aria-label="Putar Suara Narasi">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                                <span class="story-speech-tip">Klik speaker untuk mendengar narasi suara</span>
+                            </div>
+
+                            <div class="story-text-area">
+                                <p id="storyText">Memulai petualangan...</p>
+                            </div>
+
+                            <!-- Opsi Pilihan Jawaban / Aksi -->
+                            <div class="story-choices-area" id="storyChoicesArea">
+                                <!-- Tombol pilihan aksi dimuat dinamis lewat JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </main>
 
         <!-- App Footer -->
@@ -431,6 +474,16 @@
             </div>
         </footer>
 
+    </div>
+
+    <!-- Material Detail Modal / Overlay -->
+    <div class="modal" id="materiModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-body" id="modalBody">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
     </div>
 
     <!-- Canvas Confetti Library for quiz celebration -->

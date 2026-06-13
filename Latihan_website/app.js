@@ -1192,6 +1192,12 @@ function initApp() {
     if (quizStudentNameInput && savedStudentName) {
         quizStudentNameInput.value = savedStudentName;
     }
+
+    // 7. Story Action Listeners (CYOA)
+    const btnRestartStory = document.getElementById('btnRestartStory');
+    const btnToggleSpeech = document.getElementById('btnToggleSpeech');
+    if (btnRestartStory) btnRestartStory.addEventListener('click', () => initStory());
+    if (btnToggleSpeech) btnToggleSpeech.addEventListener('click', toggleSpeech);
 }
 
 // ==========================================
@@ -1248,6 +1254,8 @@ function switchTab(tabId) {
     } else if (tabId === 'kuis') {
         // If they enter kuis, reset to intro screen
         showQuizScreen('quizScreenIntro');
+    } else if (tabId === 'petualangan') {
+        initStory();
     }
 
     // Smooth scroll back to top of main view
@@ -1996,4 +2004,355 @@ function triggerCelebration(intensity) {
             requestAnimationFrame(frame);
         }
     }());
+}
+
+// ==========================================
+// SECTION: PETUALANGAN 3R (CYOA) LOGIC
+// ==========================================
+AppState.story = {
+    currentSceneId: 'start',
+    score: 0,
+    isSpeechEnabled: false,
+    scenes: {
+        'start': {
+            title: 'Kantin Sekolah',
+            text: 'Bel istirahat berbunyi! Kamu segera menuju kantin UPT SMPN 4 Gadingrejo karena haus. Ibu kantin menyerahkan segelas es teh manis menggunakan gelas sekali pakai, lengkap dengan sedotan plastik dan kantong kresek.',
+            voiceText: 'Bel istirahat berbunyi! Kamu segera menuju kantin UPT S M P Negeri 4 Gadingrejo karena haus. Ibu kantin menyerahkan segelas es teh manis menggunakan gelas sekali pakai, lengkap dengan sedotan plastik dan kantong kresek.',
+            icon: 'fa-solid fa-store text-yellow float-animation',
+            choices: [
+                { text: 'Tolak kantong & sedotan plastik, gunakan tumbler & sedotan bambu sendiri', nextId: 'canteen_good', points: 10 },
+                { text: 'Terima sedotan & kantong plastik karena tidak membawa tumbler', nextId: 'canteen_bad', points: 0 }
+            ]
+        },
+        'canteen_good': {
+            title: 'Langkah Pertama yang Hebat!',
+            text: 'Ibu kantin tersenyum dan memuji aksimu. Saat meminum es teh dengan tumbler-mu, kamu melihat seorang teman kelasmu berjalan ke tong sampah dan bersiap membuang kotak susu kertas kosong ke dalam tong sampah warna HIJAU (organik).',
+            voiceText: 'Langkah Pertama yang Hebat! Ibu kantin tersenyum dan memuji aksimu. Saat meminum es teh dengan tumbler-mu, kamu melihat seorang teman kelasmu berjalan ke tong sampah dan bersiap membuang kotak susu kertas kosong ke dalam tong sampah warna HIJAU.',
+            icon: 'fa-solid fa-face-smile text-green pulse-animation',
+            choices: [
+                { text: 'Ingatkan dia secara sopan bahwa kotak susu kertas seharusnya masuk ke tong BIRU (kertas)', nextId: 'classroom_intro', points: 10 },
+                { text: 'Biarkan saja karena kamu merasa sungkan menegurnya', nextId: 'classroom_intro_ignore', points: 0 }
+            ]
+        },
+        'canteen_bad': {
+            title: 'Sampah Plastik Terkumpul',
+            text: 'Kamu meminum es teh manis menggunakan sedotan plastik. Selesai minum, sedotan plastik, gelas plastik, dan kantong kresek kini menjadi sampah di tanganmu. Di depanmu ada tiga tempat sampah (hijau, kuning, biru).',
+            voiceText: 'Sampah Plastik Terkumpul. Kamu meminum es teh manis menggunakan sedotan plastik. Selesai minum, sedotan plastik, gelas plastik, dan kantong kresek kini menjadi sampah di tanganmu. Di depanmu ada tiga tempat sampah.',
+            icon: 'fa-solid fa-dumpster text-red shake-animation',
+            choices: [
+                { text: 'Buang seluruh sampah plastik tersebut ke tong sampah KUNING (anorganik)', nextId: 'canteen_bad_sorted', points: 10 },
+                { text: 'Buang ke tong sampah HIJAU karena paling dekat dengan tempat dudukmu', nextId: 'canteen_bad_unsorted', points: 0 }
+            ]
+        },
+        'canteen_bad_sorted': {
+            title: 'Pilah Sampah Berhasil',
+            text: 'Bagus! Kamu menempatkan sampah anorganik di tempat yang benar sehingga bisa didaur ulang. Sekarang bel masuk berbunyi dan kamu kembali ke kelas. Di koridor kelas, kamu melihat ada genangan air akibat sampah plastik yang menyumbat selokan koridor.',
+            voiceText: 'Pilah Sampah Berhasil. Bagus! Kamu menempatkan sampah anorganik di tempat yang benar sehingga bisa didaur ulang. Sekarang bel masuk berbunyi dan kamu kembali ke kelas. Di koridor kelas, kamu melihat ada genangan air akibat sampah plastik yang menyumbat selokan koridor.',
+            icon: 'fa-solid fa-water text-blue float-animation',
+            choices: [
+                { text: 'Pungut sampah plastik penyumbat selokan tersebut dan buang ke tong kuning terdekat', nextId: 'classroom_clean', points: 10 },
+                { text: 'Lewati saja dan masuk kelas karena takut terlambat masuk jam pelajaran', nextId: 'classroom_dirty', points: 0 }
+            ]
+        },
+        'canteen_bad_unsorted': {
+            title: 'Pencemaran Tong Organik',
+            text: 'Waduh! Sampah plastikmu akan mengotori sampah organik dan mempersulit proses pembuatan kompos sekolah. Saat kamu masuk kelas, guru biologi menjelaskan bahaya plastik yang sulit terurai dan dapat meracuni mikroba tanah.',
+            voiceText: 'Pencemaran Tong Organik. Waduh! Sampah plastikmu akan mengotori sampah organik dan mempersulit proses pembuatan kompos sekolah. Saat kamu masuk kelas, guru biologi menjelaskan bahaya plastik yang sulit terurai dan dapat meracuni mikroba tanah.',
+            icon: 'fa-solid fa-triangle-exclamation text-yellow shake-animation',
+            choices: [
+                { text: 'Tanyakan ke guru apakah kamu boleh keluar sebentar untuk memindahkan sampahmu tadi ke tong kuning', nextId: 'classroom_remedy', points: 10 },
+                { text: 'Diam saja dan mendengarkan pelajaran sambil menyesali tindakan tadi', nextId: 'classroom_lesson', points: 5 }
+            ]
+        },
+        'classroom_intro': {
+            title: 'Aksi Saling Mengingatkan',
+            text: 'Temanmu berterima kasih dan memindahkan kotak susunya ke tong biru. Kalian masuk kelas bersama. Di dalam kelas, seorang teman meremas kertas bekas coretan tugas lalu membuangnya di lantai kolong meja.',
+            voiceText: 'Aksi Saling Mengingatkan. Temanmu berterima kasih dan memindahkan kotak susunya ke tong biru. Kalian masuk kelas bersama. Di dalam kelas, seorang teman meremas kertas bekas coretan tugas lalu membuangnya di lantai kolong meja.',
+            icon: 'fa-solid fa-school text-green float-animation',
+            choices: [
+                { text: 'Ambil kertas tersebut dan ajak dia mengumpulkannya di kardus daur ulang kelas', nextId: 'story_end_perfect', points: 10 },
+                { text: 'Abaikan saja karena itu bukan meja tempat dudukmu', nextId: 'story_end_good', points: 0 }
+            ]
+        },
+        'classroom_intro_ignore': {
+            title: 'Kesempatan Terlewatkan',
+            text: 'Kotak susu tersebut mengotori sampah organik di dalam tong hijau. Setelah masuk kelas, guru mengumumkan bahwa hari Sabtu ini sekolah mengadakan kegiatan kerja bakti Adiwiyata untuk mengolah pupuk kompos sekolah.',
+            voiceText: 'Kesempatan Terlewatkan. Kotak susu tersebut mengotori sampah organik di dalam tong hijau. Setelah masuk kelas, guru mengumumkan bahwa hari Sabtu ini sekolah mengadakan kegiatan kerja bakti Adiwiyata untuk mengolah pupuk kompos sekolah.',
+            icon: 'fa-solid fa-calendar-days text-blue pulse-animation',
+            choices: [
+                { text: 'Daftar menjadi sukarelawan pembuat kompos organik dari sampah daun gugur', nextId: 'story_end_good', points: 10 },
+                { text: 'Pilih piket membersihkan kelas saja karena lebih ringan', nextId: 'story_end_neutral', points: 5 }
+            ]
+        },
+        'classroom_clean': {
+            title: 'Penyelamat Koridor',
+            text: 'Genangan air segera surut setelah selokan lancar kembali. Aksimu dilihat oleh guru piket yang kemudian mencatat nama dan memberikan apresiasi kepadamu di depan kelas sebagai siswa peduli Adiwiyata!',
+            voiceText: 'Penyelamat Koridor. Genangan air segera surut setelah selokan lancar kembali. Aksimu dilihat oleh guru piket yang kemudian mencatat nama dan memberikan apresiasi kepadamu di depan kelas sebagai siswa peduli Adiwiyata!',
+            icon: 'fa-solid fa-award text-yellow pulse-animation',
+            choices: [
+                { text: 'Lanjutkan sikap peduli ini dengan memilah sampah di rumah juga', nextId: 'story_end_perfect', points: 10 }
+            ]
+        },
+        'classroom_dirty': {
+            title: 'Banjir Skala Kecil',
+            text: 'Saat pulang sekolah, genangan air di koridor semakin tinggi karena hujan deras dan selokan yang tersumbat makin parah. Beberapa teman tergelincir di koridor akibat lantai yang licin.',
+            voiceText: 'Banjir Skala Kecil. Saat pulang sekolah, genangan air di koridor semakin tinggi karena hujan deras dan selokan yang tersumbat makin parah. Beberapa teman tergelincir di koridor akibat lantai yang licin.',
+            icon: 'fa-solid fa-cloud-showers-heavy text-blue shake-animation',
+            choices: [
+                { text: 'Ajak teman-teman yang belum pulang untuk bersama-sama membersihkan sampah tersebut demi keselamatan bersama', nextId: 'story_end_good', points: 10 },
+                { text: 'Segera pulang ke rumah menggunakan payung dan mengabaikannya', nextId: 'story_end_bad', points: 0 }
+            ]
+        },
+        'classroom_remedy': {
+            title: 'Tanggung Jawab Luar Biasa',
+            text: 'Guru biologi mengizinkanmu sambil memuji kejujuran dan rasa tanggung jawabmu. Kamu memindahkan sampah tersebut ke tong kuning dengan benar. Tindakan ini membuatmu mengerti pentingnya tanggung jawab lingkungan.',
+            voiceText: 'Tanggung Jawab Luar Biasa. Guru biologi mengizinkanmu sambil memuji kejujuran dan rasa tanggung jawabmu. Kamu memindahkan sampah tersebut ke tong kuning dengan benar. Tindakan ini membuatmu mengerti pentingnya tanggung jawab lingkungan.',
+            icon: 'fa-solid fa-circle-check text-green pulse-animation',
+            choices: [
+                { text: 'Kembali ke kelas dan mendengarkan pelajaran guru dengan khidmat', nextId: 'story_end_good', points: 10 }
+            ]
+        },
+        'classroom_lesson': {
+            title: 'Belajar dari Kesalahan',
+            text: 'Pelajaran hari ini berakhir. Meskipun merasa bersalah, kamu berkomitmen mulai besok tidak akan salah memilah sampah lagi dan selalu memilah sampah dengan hati-hati.',
+            voiceText: 'Belajar dari Kesalahan. Pelajaran hari ini berakhir. Meskipun merasa bersalah, kamu berkomitmen mulai besok tidak akan salah memilah sampah lagi dan selalu memilah sampah dengan hati-hati.',
+            icon: 'fa-solid fa-book text-yellow float-animation',
+            choices: [
+                { text: 'Mulai membawa botol minum sendiri ke sekolah agar mengurangi plastik', nextId: 'story_end_good', points: 10 }
+            ]
+        }
+    }
+};
+
+let storyTypewriterTimeout = null;
+
+function initStory() {
+    stopSpeaking();
+    
+    AppState.story.currentSceneId = 'start';
+    AppState.story.score = 0;
+    
+    AppState.story.isSpeechEnabled = false; 
+    updateStorySpeechUI();
+    
+    renderStoryScene('start');
+}
+
+function updateStorySpeechUI() {
+    const speechBtn = document.getElementById('btnToggleSpeech');
+    if (speechBtn) {
+        if (AppState.story.isSpeechEnabled) {
+            speechBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+        } else {
+            speechBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+        }
+    }
+}
+
+function toggleSpeech() {
+    if (!window.speechSynthesis) {
+        alert("Browser Anda tidak mendukung fitur narasi suara (Speech Synthesis).");
+        return;
+    }
+
+    if (window.speechSynthesis.speaking) {
+        stopSpeaking();
+        AppState.story.isSpeechEnabled = false;
+        updateStorySpeechUI();
+    } else {
+        AppState.story.isSpeechEnabled = true;
+        updateStorySpeechUI();
+        const currentScene = AppState.story.scenes[AppState.story.currentSceneId];
+        if (currentScene) {
+            speakStoryText(currentScene.voiceText || currentScene.text);
+        }
+    }
+}
+
+function speakStoryText(text) {
+    if (!window.speechSynthesis) return;
+
+    window.speechSynthesis.cancel();
+
+    const speechBtn = document.getElementById('btnToggleSpeech');
+    if (speechBtn) {
+        speechBtn.classList.add('speaking');
+        speechBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+    }
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'id-ID';
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+
+    utterance.onend = () => {
+        if (speechBtn) {
+            speechBtn.classList.remove('speaking');
+            updateStorySpeechUI();
+        }
+    };
+
+    utterance.onerror = () => {
+        if (speechBtn) {
+            speechBtn.classList.remove('speaking');
+            updateStorySpeechUI();
+        }
+    };
+
+    window.speechSynthesis.speak(utterance);
+}
+
+function stopSpeaking() {
+    if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+    }
+    const speechBtn = document.getElementById('btnToggleSpeech');
+    if (speechBtn) {
+        speechBtn.classList.remove('speaking');
+    }
+}
+
+function renderStoryScene(sceneId) {
+    if (storyTypewriterTimeout) {
+        clearTimeout(storyTypewriterTimeout);
+    }
+
+    AppState.story.currentSceneId = sceneId;
+    
+    const scoreElement = document.getElementById('storyScore');
+    if (scoreElement) {
+        scoreElement.textContent = AppState.story.score;
+    }
+
+    if (sceneId.startsWith('story_end_')) {
+        renderStoryEnd(sceneId);
+        return;
+    }
+
+    const scene = AppState.story.scenes[sceneId];
+    if (!scene) return;
+
+    const iconElement = document.getElementById('storyIcon');
+    if (iconElement) {
+        iconElement.className = scene.icon;
+    }
+
+    const textElement = document.getElementById('storyText');
+    if (textElement) {
+        textElement.innerHTML = '';
+        typeWriterEffect(textElement, scene.text, 0, () => {
+            if (AppState.story.isSpeechEnabled) {
+                speakStoryText(scene.voiceText || scene.text);
+            }
+        });
+    }
+
+    const choicesArea = document.getElementById('storyChoicesArea');
+    if (choicesArea) {
+        choicesArea.innerHTML = '';
+        scene.choices.forEach((choice, index) => {
+            const letter = String.fromCharCode(65 + index);
+            const button = document.createElement('button');
+            button.className = 'btn-choice';
+            button.innerHTML = `
+                <span class="choice-marker">${letter}</span>
+                <span>${choice.text}</span>
+            `;
+            button.addEventListener('click', () => handleChoiceSelection(choice));
+            choicesArea.appendChild(button);
+        });
+    }
+}
+
+function typeWriterEffect(element, text, index, callback) {
+    if (index < text.length) {
+        element.innerHTML += text.charAt(index);
+        storyTypewriterTimeout = setTimeout(() => {
+            typeWriterEffect(element, text, index + 1, callback);
+        }, 15);
+    } else {
+        if (callback) callback();
+    }
+}
+
+function handleChoiceSelection(choice) {
+    stopSpeaking();
+    AppState.story.score += choice.points;
+
+    const container = document.getElementById('storyContainer');
+    if (container) {
+        container.style.opacity = '0.3';
+        container.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+            renderStoryScene(choice.nextNode || choice.nextId);
+            container.style.opacity = '1';
+            container.style.transform = 'scale(1)';
+        }, 300);
+    } else {
+        renderStoryScene(choice.nextNode || choice.nextId);
+    }
+}
+
+function renderStoryEnd(endId) {
+    const iconElement = document.getElementById('storyIcon');
+    const textElement = document.getElementById('storyText');
+    const choicesArea = document.getElementById('storyChoicesArea');
+
+    let badgeClass = '';
+    let badgeIcon = '';
+    let title = '';
+    let desc = '';
+    let voiceText = '';
+
+    const score = AppState.story.score;
+
+    if (score >= 25) {
+        badgeClass = 'gold';
+        badgeIcon = '<i class="fa-solid fa-award"></i>';
+        title = 'Pahlawan Hijau UPT SMPN 4 Gadingrejo!';
+        desc = `Luar biasa! Skor Kesadaran Lingkunganmu mencapai ${score} poin. Kamu mengambil keputusan ramah lingkungan terbaik secara konsisten. Ayo jadilah agen perubahan bagi teman-temanmu di sekolah!`;
+        voiceText = `Luar biasa! Skor Kesadaran Lingkunganmu mencapai ${score} poin. Kamu mengambil keputusan ramah lingkungan terbaik secara konsisten. Ayo jadilah agen perubahan bagi teman-temanmu di sekolah!`;
+        triggerCelebration(100);
+    } else if (score >= 15) {
+        badgeClass = 'silver';
+        badgeIcon = '<i class="fa-solid fa-medal"></i>';
+        title = 'Pecinta Lingkungan Aktif!';
+        desc = `Keren! Kamu mengumpulkan ${score} poin. Kamu peduli lingkungan, meskipun ada beberapa pilihan tindakan kecil yang masih bisa lebih dimaksimalkan lagi. Tetap pertahankan kesadaran hijaumu!`;
+        voiceText = `Keren! Kamu mengumpulkan ${score} poin. Kamu peduli lingkungan, meskipun ada beberapa pilihan tindakan kecil yang masih bisa lebih dimaksimalkan lagi. Tetap pertahankan kesadaran hijaumu!`;
+        triggerCelebration(50);
+    } else {
+        badgeClass = 'bronze';
+        badgeIcon = '<i class="fa-solid fa-shield-halved"></i>';
+        title = 'Kadet Lingkungan Pemula!';
+        desc = `Skor kesadaran lingkunganmu adalah ${score} poin. Jangan menyerah! Kegagalan adalah awal belajar. Coba bermain kembali dan pilih tindakan yang paling ramah bagi pelestarian lingkungan sekolah.`;
+        voiceText = `Skor kesadaran lingkunganmu adalah ${score} poin. Jangan menyerah! Kegagalan adalah awal belajar. Coba bermain kembali dan pilih tindakan yang paling ramah bagi pelestarian lingkungan sekolah.`;
+    }
+
+    if (iconElement) {
+        iconElement.className = 'fa-solid fa-flag-checkered text-green float-animation';
+    }
+
+    textElement.innerHTML = `
+        <div class="story-result-card">
+            <div class="result-badge-container ${badgeClass}">
+                ${badgeIcon}
+            </div>
+            <h3>${title}</h3>
+            <p>${desc}</p>
+        </div>
+    `;
+
+    if (AppState.story.isSpeechEnabled) {
+        speakStoryText(voiceText);
+    }
+
+    if (choicesArea) {
+        choicesArea.innerHTML = '';
+        const replayButton = document.createElement('button');
+        replayButton.className = 'btn btn-primary btn-large';
+        replayButton.style.marginTop = '1rem';
+        replayButton.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Mainkan Lagi';
+        replayButton.addEventListener('click', initStory);
+        choicesArea.appendChild(replayButton);
+    }
 }
